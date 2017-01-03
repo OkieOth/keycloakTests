@@ -1,6 +1,8 @@
 apply plugin: 'java'
 
-sourceCompatibility = '1.7'
+targetCompatibility = '1.8'
+sourceCompatibility = '1.8'
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 // NetBeans will automatically add "run" and "debug" tasks relying on the
@@ -29,8 +31,8 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.5'
     compile 'ch.qos.logback:logback-classic:1.0.9'
     compile 'org.keycloak:keycloak-admin-client:2.4.0.Final'
-    compile 'org.jboss.resteasy:resteasy-client:3.0.15.Final'
-    compile 'org.jboss.resteasy:resteasy-jackson2-provider:3.0.15.Final'
+    compile 'org.jboss.resteasy:resteasy-client:3.1.0.Final'
+    compile 'org.jboss.resteasy:resteasy-jackson2-provider:3.1.0.Final'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
 }
 
@@ -98,8 +100,7 @@ task integrationTest(type: Test) {
         println 'before integration tests - ' + new Date().getTime()
         def sout = new StringBuffer()
         def serr = new StringBuffer()
-        def process = ['docker-compose','-f',composeFile,
-        '-p',composeName,'up','-d'].execute()
+        def process = ['docker-compose','-f',composeFile,'up','-d'].execute()
         process.consumeProcessOutput(sout,serr)
         process.waitFor()
         sleep 1
@@ -127,8 +128,8 @@ task integrationTest(type: Test) {
         println 'try to add new admin user'
         ['docker','exec',keycloakContName,'keycloak/bin/add-user-keycloak.sh','--user','batman','--password','robinSucksToo'].execute().waitFor()
         println 'restart container'
-        ['docker-compose','-f',composeFile,'-p',composeName,'stop'].execute().waitFor()
-        ['docker-compose','-f',composeFile,'-p',composeName,'start'].execute().waitFor()
+        ['docker-compose','-f',composeFile,'stop'].execute().waitFor()
+        ['docker-compose','-f',composeFile,'start'].execute().waitFor()
         println 'test container started'
     }
     
@@ -136,8 +137,7 @@ task integrationTest(type: Test) {
         // stop docker container
         def sout = new StringBuffer()
         def serr = new StringBuffer()
-        def proc = ['docker-compose','-f',composeFile,
-         '-p',composeName,'down'].execute()
+        def proc = ['docker-compose','-f',composeFile,'down'].execute()
         proc.consumeProcessOutput(sout,serr)
         proc.waitForOrKill(20000)
         println "out: $sout \n err: $serr"

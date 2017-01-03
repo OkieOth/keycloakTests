@@ -54,8 +54,10 @@ public class KeycloakAccess {
      */
     public static boolean doesRealmExist(RealmResource rr) {
         try {
-            rr.clients().findAll();
-            return true;
+            //rr.clients().findAll();
+            RolesResource r = rr.roles();
+            List<RoleRepresentation> roles = r.list();
+            return roles.size()>0;
         } catch (Exception e) {
             return false;
         }
@@ -270,7 +272,8 @@ public class KeycloakAccess {
     }
 
     public static void setGroupForUser(RealmResource rRes, UserResource userRes, String groupName) {
-        List<GroupRepresentation> realmGroups = rRes.groups().groups();
+        GroupsResource gr = rRes.groups();
+        List<GroupRepresentation> realmGroups = gr.groups();
         for (GroupRepresentation realmGroup : realmGroups) {
             if (groupName.equals(realmGroup.getName())) {
                 rRes.users().get(userRes.toRepresentation().getId()).joinGroup(realmGroup.getId());

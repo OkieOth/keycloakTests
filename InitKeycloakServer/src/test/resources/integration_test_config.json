@@ -1,45 +1,5 @@
 {
     "realms": [{
-             "name":         "it_grantMaster",
-            "realmRoles":   ["grantMaster"],
-            "apps":  [{
-                "name": "grantmaster",
-                "redirectUrls": [
-                    "gm/*"],
-                "appRoles": [ "view","edit","admin" ]
-                }],
-            "userGroups": [ {
-                    "name": "GrantMaster user",
-                    "realmRoles":   ["grantMaster"],
-                    "appRoles": [{
-                    "app":  "grantmaster",  
-                    "role": "edit"}]
-                },
-                {
-                    "name": "GrantMaster admin",
-                    "realmRoles":   ["grantMaster"],
-                    "appRoles": [{
-                    "app":  "grantmaster",  
-                    "role": "admin"}]
-                }],
-            "users": [{
-                "login":        "test",
-                "password":     "geheim",
-                "email":        "test@test.com",
-                "lastName":         "Simpson",
-                "firstName":         "Homer",
-                "userGroup":   "GrantMaster user"
-                },
-                {
-                "login":        "test2",
-                "password":     "geheim",
-                "email":        "test@test.com",
-                "lastName":         "Simpson",
-                "firstName":         "Marge",
-                "userGroup":   "GrantMaster admin"
-                }]
-        },
-       {
             "name":         "it_keycloakTest",
             "realmRoles":   ["demo1","demo2"],
             "apps":  [{
@@ -74,19 +34,164 @@
             "users": [{
                 "login":        "demo_user1",
                 "password":     "geheim",
-                "email":        "test@test.com",
+                "email":        "demo.user1@test.com",
                 "lastName":         "Wayne",
                 "firstName":         "Bruce",
                 "userGroup":    "demo1 group"
                 },
-                {
+              {
+                "login":        "demo_user_x",
+                "password":     "geheim",
+                "email":        "demo_X.user1@test.com",
+                "lastName":         "Wayne1",
+                "firstName":         "Bruce1",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_y",
+                "password":     "geheim",
+                "email":        "demo_y.user1@test.com",
+                "lastName":         "Wayne2",
+                "firstName":         "Bruce2",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_z",
+                "password":     "geheim",
+                "email":        "demo_z.user1@test.com",
+                "lastName":         "Wayne3",
+                "firstName":         "Bruce3",
+                "userGroup":    "demo1 group"
+              },
+
+              {
+                "login":        "demo_user_z-1",
+                "password":     "geheim",
+                "email":        "demo_z.user1-1@test.com",
+                "lastName":         "Wayne3-1",
+                "firstName":         "Bruce3-1",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_z-2",
+                "password":     "geheim",
+                "email":        "demo_z.user1-2@test.com",
+                "lastName":         "Wayne3-2",
+                "firstName":         "Bruce3-2",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_z-3",
+                "password":     "geheim",
+                "email":        "demo_z.user1-3@test.com",
+                "lastName":         "Wayne3-3",
+                "firstName":         "Bruce3-3",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_z-4",
+                "password":     "geheim",
+                "email":        "demo_z.user1-4@test.com",
+                "lastName":         "Wayne3-4",
+                "firstName":         "Bruce3-4",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_z-5",
+                "password":     "geheim",
+                "email":        "demo_z.user1-5@test.com",
+                "lastName":         "Wayne3-5",
+                "firstName":         "Bruce3-5",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_z-6",
+                "password":     "geheim",
+                "email":        "demo_z.user1-6@test.com",
+                "lastName":         "Wayne3-6",
+                "firstName":         "Bruce3-6",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_z-7",
+                "password":     "geheim",
+                "email":        "demo_z.user1-7@test.com",
+                "lastName":         "Wayne3-7",
+                "firstName":         "Bruce3-7",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_z-8",
+                "password":     "geheim",
+                "email":        "demo_z.user1-8@test.com",
+                "lastName":         "Wayne3-8",
+                "firstName":         "Bruce3-8",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_z-9",
+                "password":     "geheim",
+                "email":        "demo_z.user1-9@test.com",
+                "lastName":         "Wayne3-9",
+                "firstName":         "Bruce3-9",
+                "userGroup":    "demo1 group"
+              },
+              {
+                "login":        "demo_user_z-10",
+                "password":     "geheim",
+                "email":        "demo_z.user1-10@test.com",
+                "lastName":         "Wayne3-10",
+                "firstName":         "Bruce3-10",
+                "userGroup":    "demo1 group"
+              },
+              {
                 "login":        "demo_user2",
                 "password":     "geheim",
-                "email":        "test@test.com",
+                "email":        "demo.user2@test.com",
                 "lastName":         "Parker",
                 "firstName":         "Peter",
                 "userGroup":    "demo2 group"
                 }]
-        }
+        },
+      {
+        "name":         "it_grantMaster",
+        "realmRoles":   ["grantMaster"],
+        "apps":  [{
+          "name": "grantmaster",
+          "redirectUrls": [
+            "gm/*"],
+          "appRoles": [ "view","edit","admin" ]
+        }],
+        "userGroups": [ {
+          "name": "GrantMaster user",
+          "realmRoles":   ["grantMaster"],
+          "appRoles": [{
+            "app":  "grantmaster",
+            "role": "edit"}]
+        },
+          {
+            "name": "GrantMaster admin",
+            "realmRoles":   ["grantMaster"],
+            "appRoles": [{
+              "app":  "grantmaster",
+              "role": "admin"}]
+          }],
+        "users": [{
+          "login":        "test",
+          "password":     "geheim",
+          "email":        "test@test.com",
+          "lastName":         "Simpson",
+          "firstName":         "Homer",
+          "userGroup":   "GrantMaster user"
+        },
+          {
+            "login":        "test2",
+            "password":     "geheim",
+            "email":        "test2@test.com",
+            "lastName":         "Simpson",
+            "firstName":         "Marge",
+            "userGroup":   "GrantMaster admin"
+          }]
+      }
     ]   
 }

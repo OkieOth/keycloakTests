@@ -43,6 +43,18 @@ public class IT_Test {
     
     public static Keycloak initKeycloak(String server, String realm,String user,String pwd,String clientStr) {
         Keycloak k = Keycloak.getInstance(server,realm,user,pwd,clientStr);
+/*
+        KeycloakBuilder.builder()
+                .serverUrl("http://your.keycloak.domain/auth")
+                .realm("master")
+                .username("admin")
+                .password("secret")
+                .clientId("admin-cli")
+                .resteasyClient(
+                        new ResteasyClientBuilder()
+                                .connectionPoolSize(10).build()
+                ).build();
+                        */
         // poll and wait for keycloak server is started
         RealmResource rRes = null;
         int count = 0;
@@ -50,6 +62,7 @@ public class IT_Test {
             while(rRes==null && count < 100) {
                 rRes = KeycloakAccess.getRealm(k, realm,false);
                 count++;
+                System.out.println("wait for keycloak connect ...");
                 Thread.sleep(1000);
             }
             System.out.println("wait count: "+count);

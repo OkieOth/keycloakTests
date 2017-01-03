@@ -20,6 +20,7 @@ import de.oth.keycloak.json.RealmConfig;
 import de.oth.keycloak.json.RealmsConfig;
 import de.oth.keycloak.json.UserConfig;
 import de.oth.keycloak.json.UserGroupConfig;
+import org.keycloak.representations.AccessTokenResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import de.oth.keycloak.util.CheckParams;
@@ -50,9 +51,13 @@ public class InitKeycloakServer {
         }
         RealmResource rRes = KeycloakAccess.getRealm(keycloak, realmName, true);
         KeycloakAccess.addMissedRealmRoles(rRes, realmConf.getRealmRoles());
+//        keycloak.tokenManager().refreshToken().getIdToken();
         addApps(rRes, realmConf.getApps());
+//        keycloak.tokenManager().refreshToken();
         addUserGroups(rRes, realmConf.getUserGroups());
-        addUsers(rRes, realmConf.getUsers());
+//        keycloak.tokenManager().refreshToken();
+        addUsers(keycloak,rRes, realmConf.getUsers());
+//        keycloak.tokenManager().refreshToken();
     }
 
     private static void addUserGroups(RealmResource rRes, List<UserGroupConfig> userGroupList) {
@@ -97,7 +102,7 @@ public class InitKeycloakServer {
         }
     }
 
-    private static void addUsers(RealmResource rRes, List<UserConfig> userList) {
+    private static void addUsers(Keycloak keycloak,RealmResource rRes, List<UserConfig> userList) {
         if (userList == null || userList.isEmpty()) {
             return;
         }
@@ -112,10 +117,12 @@ public class InitKeycloakServer {
                 bAdd = true;
             }
             String groupName = userConfig.getUserGroup();
-            KeycloakAccess.setGroupForUser(rRes, userRes, userConfig.getUserGroup());
             if (bAdd) {
                 KeycloakAccess.setPasswordForUser(rRes, userRes, userConfig.getPassword());
             }
+            /*
+            KeycloakAccess.setGroupForUser(rRes, userRes, groupName);
+            */
         }
     }
 

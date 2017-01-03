@@ -13,6 +13,8 @@ services:
               - POSTGRES_PASSWORD=bartSucks4
               - POSTGRES_PORT_5432_TCP_ADDR=postgres
               - POSTGRES_PORT_5432_TCP_PORT=5432
+        networks:
+            - initkeycloak-it
     db:
         environment:
               - POSTGRES_USER=homer
@@ -23,4 +25,8 @@ services:
             - "5432"
         volumes:
             - "./pg_data:/var/lib/postgresql/data"
+        networks:
+            - initkeycloak-it
+networks:
+    initkeycloak-it:
 
