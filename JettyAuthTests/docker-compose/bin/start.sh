@@ -12,6 +12,9 @@ composeFile="$scriptPos/../docker-compose.yml"
 keycloakAdmin=batman
 keycloakAdminPwd=IchBinBatman
 
+if ! [ -d $scriptPos/../httpd/sites-conf ]; then mkdir -p $scriptPos/../httpd/sites-conf; fi
+
+
 httpdContName=${projectName}_httpd_1
 
 docker ps -f name="$httpdContName" | grep "$httpdContName" > /dev/null && echo -en "\033[1;31m  container seems to be up: $httpdContName\033[0m\n" && exit 1
