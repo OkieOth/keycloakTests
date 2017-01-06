@@ -1,0 +1,102 @@
+{
+  "realms": [{
+    "name":         "Neustadt",
+    "realmRoles":   ["anna","vera","ines","lisa"],
+    "apps":  [{
+      "name": "anna",
+      "redirectUrls": [
+        "/anna/*"],
+      "appRoles": [ "user","admin" ]
+    }
+      ,{
+        "name": "vera",
+        "redirectUrls": [
+          "/sw/veraWeb/*"],
+        "appRoles": [ "sba","sm","vera-admin","wartungsfirma" ]
+      }
+      ,{
+        "name": "ines",
+        "redirectUrls": [
+          "https://ines.neustadt.de/ines/*"],
+        "appRoles": [ "view","edit","admin" ]
+      }
+      ,{
+        "name": "lisa",
+        "redirectUrls": [
+          "https://lisa.neustadt.de/lisa/*"],
+        "appRoles": []
+      }
+    ],
+    "userGroups": [ {
+      "name": "neustadt user",
+      "realmRoles":   ["anna","vera","ines","lisa"],
+      "appRoles": [{
+        "app":  "anna",
+        "role": "user"}
+        ,{
+          "app":  "vera",
+          "role": "sba"}
+      ,{
+          "app":  "ines",
+          "role": "edit"}
+      ]
+    }
+    ,{
+        "name": "neustadt admin",
+        "realmRoles":   ["anna","vera","ines","lisa"],
+        "appRoles": [{
+          "app":  "anna",
+          "role": "admin"}
+        ,{
+            "app":  "vera",
+            "role": "vera-admin"}
+        ,{
+            "app":  "ines",
+            "role": "admin"}
+        ]
+      }
+    ,{
+        "name": "neustadt extern",
+        "realmRoles":   ["ines","lisa"],
+        "appRoles": [{
+            "app":  "ines",
+            "role": "view"}
+        ]
+      }
+    ],
+    "users": [
+      {
+      "login":        "marge",
+      "password":     "IchBinMarge",
+      "email":        "marge.s@neustadt.de",
+      "lastName":         "Simpson",
+      "firstName":         "Marge",
+      "userGroup":   "neustadt user"
+    }
+      , {
+        "login":        "homer",
+        "password":     "IchBinHomer",
+        "email":        "homer.s@neustadt.de",
+        "lastName":         "Simpson",
+        "firstName":         "Homer",
+        "userGroup":   "neustadt extern"
+      }
+    , {
+        "login":        "bart",
+        "password":     "IchBinBart",
+        "email":        "bart.s@neustadt.de",
+        "lastName":         "Simpson",
+        "firstName":         "Bart",
+        "userGroup":   "neustadt extern"
+      }
+    , {
+        "login":        "lisa",
+        "password":     "IchBinLisa",
+        "email":        "lisa.s@neustadt.de",
+        "lastName":         "Simpson",
+        "firstName":         "Lisa",
+        "userGroup":   "neustadt admin"
+      }
+    ]
+  }]
+}

@@ -242,6 +242,7 @@ public class KeycloakAccess {
         if (clientRoles != null && (!clientRoles.isEmpty())) {
             cRep.setDefaultRoles(list2array(clientRoles));
         }
+        cRep.setPublicClient(Boolean.TRUE);
         Response response = rRes.clients().create(cRep);
         String clientId = getCreatedId(response);
         return rRes.clients().get(clientId);
@@ -268,7 +269,24 @@ public class KeycloakAccess {
         userRep.setUsername(login);
         Response response = rRes.users().create(userRep);
         String userId = getCreatedId(response);
-        return rRes.users().get(userId);
+        UserResource uRes = rRes.users().get(userId);
+        // attention after creation of a new user all available client roles are assigned to this user ...
+        // ... so I throw them away
+        removeAppRolesFromUser(rRes,uRes);
+        return uRes;
+    }
+
+    private static void removeAppRolesFromUser(RealmResource rRes, UserResource userRes) {
+        GroupsResource gr = rRes.groups();
+        RoleMappingResource roles = userRes.roles();
+        ClientsResource clientsResource = rRes.clients();
+        List<ClientRepresentation> clientList = clientsResource.findAll();
+        for (ClientRepresentation aktCRep : clientList) {
+            String clientId=aktCRep.getId();
+            RoleScopeResource roleScopeResource = roles.clientLevel(clientId);
+            List<RoleRepresentation> roleRepresentations = roleScopeResource.listAll();
+            roleScopeResource.remove(roleRepresentations);
+        }
     }
 
     public static void setGroupForUser(RealmResource rRes, UserResource userRes, String groupName) {

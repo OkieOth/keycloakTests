@@ -30,6 +30,8 @@ import java.net.URL;
 import java.util.List;
 import org.junit.AfterClass;
 import static org.junit.Assert.fail;
+
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.keycloak.admin.client.Keycloak;

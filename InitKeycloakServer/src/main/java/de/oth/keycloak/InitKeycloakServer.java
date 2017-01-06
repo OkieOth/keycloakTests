@@ -51,13 +51,9 @@ public class InitKeycloakServer {
         }
         RealmResource rRes = KeycloakAccess.getRealm(keycloak, realmName, true);
         KeycloakAccess.addMissedRealmRoles(rRes, realmConf.getRealmRoles());
-//        keycloak.tokenManager().refreshToken().getIdToken();
         addApps(rRes, realmConf.getApps());
-//        keycloak.tokenManager().refreshToken();
         addUserGroups(rRes, realmConf.getUserGroups());
-//        keycloak.tokenManager().refreshToken();
         addUsers(keycloak,rRes, realmConf.getUsers());
-//        keycloak.tokenManager().refreshToken();
     }
 
     private static void addUserGroups(RealmResource rRes, List<UserGroupConfig> userGroupList) {
@@ -116,13 +112,12 @@ public class InitKeycloakServer {
                 userRes = KeycloakAccess.addUserToRealm(rRes, firstName, lastName, login);
                 bAdd = true;
             }
-            String groupName = userConfig.getUserGroup();
             if (bAdd) {
                 KeycloakAccess.setPasswordForUser(rRes, userRes, userConfig.getPassword());
             }
-            /*
-            KeycloakAccess.setGroupForUser(rRes, userRes, groupName);
-            */
+            String groupName = userConfig.getUserGroup();
+            if (groupName!=null)
+                KeycloakAccess.setGroupForUser(rRes, userRes, groupName);
         }
     }
 

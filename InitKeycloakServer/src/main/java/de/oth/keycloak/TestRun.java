@@ -13,11 +13,13 @@ specific language governing permissions and limitations under the License.
 package de.oth.keycloak;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.oth.keycloak.impl.KeycloakAccess;
 import de.oth.keycloak.json.AppConfig;
 import de.oth.keycloak.json.RealmConfig;
 import de.oth.keycloak.json.RealmsConfig;
 import de.oth.keycloak.json.UserConfig;
 import de.oth.keycloak.json.UserGroupConfig;
+import org.keycloak.admin.client.resource.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import de.oth.keycloak.util.CheckParams;
@@ -28,11 +30,6 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.ClientsResource;
-import org.keycloak.admin.client.resource.GroupsResource;
-import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.RolesResource;
-import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.GroupRepresentation;
@@ -72,9 +69,8 @@ public class TestRun {
             }
             Keycloak keycloak = (secret==null) ? Keycloak.getInstance(server,realm,user,pwd,clientStr) :
                 Keycloak.getInstance(server,realm,user,pwd,clientStr,secret);
-    
 
-            
+/*
             ObjectMapper mapper = new ObjectMapper();
             RealmsConfig realmsConfig = mapper.readValue(initFile, RealmsConfig.class);
 
@@ -90,6 +86,7 @@ public class TestRun {
             }
             else
                 log.error("no realms config found 2");
+*/
         } catch (Exception e) {
             log.error(e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace();

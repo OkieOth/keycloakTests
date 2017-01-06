@@ -1,0 +1,58 @@
+version: '2'
+services:
+    httpd:
+        image: "okieoth/d_apache2.4:0.2"
+        volumes:
+            - "./httpd/conf:/opt/extra-conf-enabled"
+            - "./httpd/sites-conf:/opt/extra-sites-enabled"
+            - "./httpd/data:/opt/extra-data"
+        links:
+            - jetty:jetty
+            - keycloak:keycloak
+        depends_on:
+            - keycloak
+            - jetty
+        ports:
+                - "8000:80"
+        networks:
+            - jetty-test
+    jetty:
+        image: "okieoth/d_jetty9.3_keycloak2.4:0.1"
+        expose:
+            - "8080"
+        volumes:
+            - "./jetty/webapps:/var/lib/jetty/webapps"
+        networks:
+            - jetty-test
+        links:
+            - keycloak:auth
+    keycloak:
+        image: "jboss/keycloak-postgres:2.4.0.Final"
+        depends_on:
+            - db
+        expose:
+            - "8080"
+        links:
+            - db:postgres
+        environment:
+              - POSTGRES_USER=homer
+              - POSTGRES_PASSWORD=bartSucks4
+              - POSTGRES_PORT_5432_TCP_ADDR=postgres
+              - POSTGRES_PORT_5432_TCP_PORT=5432
+        networks:
+            - jetty-test
+    db:
+        environment:
+              - POSTGRES_USER=homer
+              - POSTGRES_PASSWORD=bartSucks4
+              - POSTGRES_DB=keycloak
+        image: "postgres:alpine"
+        expose:
+            - "5432"
+        volumes:
+            - "./db/pg_data:/var/lib/postgresql/data"
+        networks:
+            - jetty-test
+networks:
+    jetty-test:
+
