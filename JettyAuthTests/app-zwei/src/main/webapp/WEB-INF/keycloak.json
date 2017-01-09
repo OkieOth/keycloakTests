@@ -1,0 +1,10 @@
+{
+  "realm" : "jetty-test",
+  "resource" : "zwei",
+  "auth-server-url" : "/auth",
+  "ssl-required" : "none",
+  "use-resource-role-mappings" : false,
+  "credentials" : {
+    "secret" : "value-needed-but-ignored"
+  }
+}

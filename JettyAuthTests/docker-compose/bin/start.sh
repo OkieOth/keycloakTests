@@ -19,12 +19,26 @@ httpdContName=${projectName}_httpd_1
 
 docker ps -f name="$httpdContName" | grep "$httpdContName" > /dev/null && echo -en "\033[1;31m  container seems to be up: $httpdContName\033[0m\n" && exit 1
 
+
+# install needed test webapps ...
+rm -f "$scriptPos/../jetty/webapps"/*.*
+pushd "$scriptPos/../../app-eins" > /dev/null
+gradle clean assemble
+cp build/libs/app-eins.war ../docker-compose/jetty/webapps/eins.war
+popd > /dev/null
+pushd "$scriptPos/../../app-zwei" > /dev/null
+gradle clean assemble
+cp build/libs/app-zwei.war ../docker-compose/jetty/webapps/zwei.war
+popd > /dev/null
+
+
 if docker ps -a -f name="$httpdContName" | grep "$httpdContName" > /dev/null; then
     docker-compose -p "$projectName" -f "$composeFile" start
 else
     if ! [ -d "$scriptPos/../db/pg_data" ]; then
         mkdir "$scriptPos/../db/pg_data"
     fi
+
     docker-compose -p "$projectName" -f "$composeFile" up -d
     if ! docker exec ${projectName}_keycloak_1 keycloak/bin/add-user-keycloak.sh --user "$keycloakAdmin" --password "$keycloakAdminPwd"; then
         echo -en "\033[1;31m  error while init keycloak user \033[0m\n"
