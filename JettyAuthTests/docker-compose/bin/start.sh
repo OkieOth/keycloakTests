@@ -26,6 +26,10 @@ pushd "$scriptPos/../../app-eins" > /dev/null
 gradle clean assemble
 cp build/libs/app-eins.war ../docker-compose/jetty/webapps/eins.war
 popd > /dev/null
+pushd "$scriptPos/../../app-eins-2" > /dev/null
+gradle clean assemble
+cp build/libs/app-eins-2.war ../docker-compose/jetty/webapps/eins2.war
+popd > /dev/null
 pushd "$scriptPos/../../app-zwei" > /dev/null
 gradle clean assemble
 cp build/libs/app-zwei.war ../docker-compose/jetty/webapps/zwei.war
