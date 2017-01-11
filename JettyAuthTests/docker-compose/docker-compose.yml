@@ -17,7 +17,7 @@ services:
         networks:
             - jetty-test
     jetty:
-        image: "okieoth/d_jetty9.3_keycloak2.4:0.1"
+        image: "okieoth/d_jetty93_keycloak:0.1"
         expose:
             - "8080"
         volumes:

@@ -13,7 +13,8 @@ keycloakAdmin=batman
 keycloakAdminPwd=IchBinBatman
 
 if ! [ -d $scriptPos/../httpd/sites-conf ]; then mkdir -p $scriptPos/../httpd/sites-conf; fi
-
+if ! [ -d $scriptPos/../jetty/webapps ]; then mkdir -p $scriptPos/../jetty/webapps; fi
+if ! [ -d $scriptPos/../db/pg_data ]; then mkdir -p $scriptPos/../db/pg_data; fi
 
 httpdContName=${projectName}_httpd_1
 
