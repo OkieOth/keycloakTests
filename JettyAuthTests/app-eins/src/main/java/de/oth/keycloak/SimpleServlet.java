@@ -44,7 +44,16 @@ public class SimpleServlet extends HttpServlet {
             Set<String> realmRoles = realmAccess.getRoles();
             out.println("<ul>");
             for (String r:realmRoles) {
-                out.println("<li>"+r+"</li>");
+                switch(r) {
+                    case "app-eins":
+                        out.println("<li><a href='/eins/' title='Go to app-eins'>" + r + "</a></li>");
+                        break;
+                    case "app-zwei":
+                        out.println("<li><a href='/zwei/' title='Go to app-zwei'>" + r + "</a></li>");
+                        break;
+                    default:
+                        out.println("<li>" + r + "</li>");
+                }
             }
             out.println("</ul>");
         }
@@ -61,7 +70,13 @@ public class SimpleServlet extends HttpServlet {
                 for (String s: resRolesSet) {
                     if (sb.length()>0)
                         sb.append(", ");
-                    sb.append(s);
+                    if (s.equals("eins-admin")) {
+                        sb.append("<a href='/eins2/' title='Go to app-eins'>");
+                        sb.append(s);
+                        sb.append("</a>");
+                    }
+                    else
+                        sb.append(s);
                 }
                 out.println("<li>"+res+": ["+sb.toString()+"]</li>");
             }
