@@ -1,0 +1,85 @@
+$printInfoScript = <<SCRIPT
+  ipAddr=`ifconfig enp0s8 | grep 'inet addr' | grep Bcast | awk '{print $2}' | sed 's/addr://'`
+  echo "IP-address of the vm: $ipAddr"
+  echo "Test-Urls:
+Protected by realm role
+http://$ipAddr/eins/    User: lisa, marge
+
+Protected by client role
+http://$ipAddr/eins2/   User: lisa
+
+Protected by realm role
+http://$ipAddr/zwei/    User: lisa, homer
+
+Available user:
+lisa,  Pwd: IchBinLisa
+marge, Pwd: IchBinMarge
+homer, Pwd: IchBinHomer
+bart,  Pwd: IchBinBart
+
+Keycloak-Admin-Console
+http://$ipAddr/auth/admin/master/console
+User: batman, Pwd: IchBinBatman
+"
+  
+SCRIPT
+
+$startKeycloakEnv = <<KEYCLOAKENV
+    if ! [ -d /opt/keycloak_test/keycloakTests ]; then
+        # check for existing old containers ...
+        docker rm -f jettyauthtest_httpd_1
+        docker rm -f jettyauthtest_jetty_1
+        docker rm -f jettyauthtest_keycloak_1
+        docker rm -f jettyauthtest_db_1
+
+        cd /opt/keycloak_test
+        curl -s https://codeload.github.com/OkieOth/keycloakTests/zip/master -o keycloakTests.zip 
+        unzip keycloakTests.zip && rm -f keycloakTests.zip && mv keycloakTests-master keycloakTests
+        # modify the apache httpd port in docker-compose file
+        pushd /opt/keycloak_test/keycloakTests/JettyAuthTests/docker-compose > /dev/null
+            mv docker-compose.yml docker-compose.yml.orig
+            cat docker-compose.yml.orig | sed -e 's-8000:80-80:80-' > docker-compose.yml 
+            mv bin/start.sh bin/start.sh.orig
+            cat bin/start.sh.orig | sed -e 's-8000-80-' > bin/start.sh
+            chmod a+x bin/start.sh
+        popd
+        sudo chown -R ubuntu:ubuntu /opt/keycloak_test
+    fi
+    /opt/keycloak_test/keycloakTests/JettyAuthTests/docker-compose/bin/start.sh x
+KEYCLOAKENV
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "ubuntu/xenial64"
+  config.vm.box_check_update = false
+  config.vm.network "private_network", type: "dhcp"
+  config.vm.provider "virtualbox" do |vb|
+     vb.memory = "4096"
+  end
+config.vm.provision "shell", inline: <<-SHELL
+    sudo echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" | sudo tee /etc/apt/sources.list.d/docker.list
+    sudo apt-get update
+    sudo apt-get install -y openjdk-8-jdk-headless unzip
+    # Docker requirements
+    sudo groupadd docker
+    sudo usermod -aG docker ubuntu
+    sudo apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
+    sudo apt-get install -y --allow-unauthenticated docker-engine
+    sudo curl -Ls "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo su -c 'chown :docker /usr/local/bin/docker-compose && chmod ug+x /usr/local/bin/docker-compose'
+    # gradle installation
+    cd /opt    
+    sudo su -c 'export GRADLE=gradle-3.3; curl -Ls https://services.gradle.org/distributions/${GRADLE}-bin.zip -o ${GRADLE}-bin.zip && unzip ${GRADLE}-bin.zip && rm -f ${GRADLE}-bin.zip && ln -s ${GRADLE} gradle && ln -s /opt/gradle/bin/gradle /usr/local/bin'
+
+    # prepare keycloak tests home ...
+    sudo mkdir /opt/keycloak_test
+    sudo chown -R ubuntu:ubuntu /opt/keycloak_test
+  SHELL
+
+  # extra provision to start keycloak test environment
+  config.vm.provision "shell", inline: $startKeycloakEnv,
+        run: "always"
+
+  # extra provision to print the ip address of the vm
+        config.vm.provision "shell", inline: $printInfoScript,
+        run: "always"
+end

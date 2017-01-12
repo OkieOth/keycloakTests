@@ -22,19 +22,22 @@ docker ps -f name="$httpdContName" | grep "$httpdContName" > /dev/null && echo -
 
 
 # install needed test webapps ...
-rm -f "$scriptPos/../jetty/webapps"/*.*
-pushd "$scriptPos/../../app-eins" > /dev/null
-gradle clean assemble
-cp build/libs/app-eins.war ../docker-compose/jetty/webapps/eins.war
-popd > /dev/null
-pushd "$scriptPos/../../app-eins-2" > /dev/null
-gradle clean assemble
-cp build/libs/app-eins-2.war ../docker-compose/jetty/webapps/eins2.war
-popd > /dev/null
-pushd "$scriptPos/../../app-zwei" > /dev/null
-gradle clean assemble
-cp build/libs/app-zwei.war ../docker-compose/jetty/webapps/zwei.war
-popd > /dev/null
+
+if [ $# -eq 0 ] || ! [ -f $scriptPos/../jetty/webapps/eins.war ]; then
+    rm -f "$scriptPos/../jetty/webapps"/*.*
+    pushd "$scriptPos/../../app-eins" > /dev/null
+    gradle clean assemble
+    cp build/libs/app-eins.war ../docker-compose/jetty/webapps/eins.war
+    popd > /dev/null
+    pushd "$scriptPos/../../app-eins-2" > /dev/null
+    gradle clean assemble
+    cp build/libs/app-eins-2.war ../docker-compose/jetty/webapps/eins2.war
+    popd > /dev/null
+    pushd "$scriptPos/../../app-zwei" > /dev/null
+    gradle clean assemble
+    cp build/libs/app-zwei.war ../docker-compose/jetty/webapps/zwei.war
+    popd > /dev/null
+fi
 
 
 if docker ps -a -f name="$httpdContName" | grep "$httpdContName" > /dev/null; then
