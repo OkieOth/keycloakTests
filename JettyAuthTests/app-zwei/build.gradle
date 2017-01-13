@@ -14,11 +14,6 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
     compile 'javax.servlet:servlet-api:2.5'
-    /*
-    compile "org.keycloak:keycloak-authz-client:${keycloakVersion}"
-    compile "org.keycloak:keycloak-core:${keycloakVersion}"
-    */
-
     compileOnly 'org.keycloak:keycloak-jetty92-adapter:2.4.0.Final'
 }
 
