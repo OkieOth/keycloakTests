@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Validators,FormControl,FormGroup,FormBuilder} from '@angular/forms';
 import {Message} from "primeng/components/common/api";
+import {AuthGuard} from "../auth/AuthGuard";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'login-view',
@@ -17,11 +19,13 @@ export class LoginViewComponent implements OnInit {
 
   userform: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private router:Router, private authGuard:AuthGuard) {}
 
   onSubmit() {
     this.submitted = true;
     console.log("onSubmit: name="+this.model.name+", pwd="+this.model.password);
+    this.authGuard.authenticated=true;
+    this.router.navigate(['/']);
   }
 
 
