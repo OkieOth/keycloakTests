@@ -5,19 +5,17 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { LoginViewComponent } from './login-view/login-view.component';
 import { MainViewComponent } from './main-view/main-view.component';
 import {PanelModule} from 'primeng/primeng';
-import {AuthGuard} from "./auth/AuthGuard";
+import {KeycloakService} from "./auth/keycloak.service";
 
 const preAuthRoutes: Routes = [
     { path: '',
         redirectTo: 'main',
         pathMatch: 'full'
     },
-    { path: 'login', component: LoginViewComponent },
-    { path: 'main', component: MainViewComponent, canActivate: [AuthGuard] },
-    { path: '**', component: MainViewComponent, canActivate: [AuthGuard] }
+    { path: 'main', component: MainViewComponent},
+    { path: '**', component: MainViewComponent }
 ];
 
 
@@ -25,7 +23,6 @@ const preAuthRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    LoginViewComponent,
     MainViewComponent
   ],
   imports: [
@@ -36,7 +33,7 @@ const preAuthRoutes: Routes = [
     HttpModule,
     PanelModule
   ],
-  providers: [AuthGuard],
+  providers: [KeycloakService],
 
   // this is needed for all Components used in dynamic routes
   entryComponents: [MainViewComponent],

@@ -1,7 +1,31 @@
-
 <div>
-  <p-panel header="Secret content">
-    If you can see me, than you should be logged in B-)
-  </p-panel>
+    <p-panel header="Secret content">
+        If you can see me, than you should be logged in B-)
+    </p-panel>
+    <h3>Where are you?</h3>
+    <ul>
+        <li>Context: {{context}}</li>
+        <li>Realm: {{realm}}</li>
+    </ul>
+    <h3>Who are you?</h3>
+    <ul>
+        <li>User: {{user}}</li>
+    </ul>
+
+    <div>
+        <ul>
+            <li>Token expires: {{tokenExpires}}</li>
+            <li>Tick: {{ticks}}</li>
+        </ul>
+    </div>
+
+    <h3>Your realm permissions are</h3>
+    <ul>
+        <li *ngFor="let item of realmPermissions"><a href="{{item.link}}">{{item.txt}}</a></li>
+    </ul>
+    <h3>Your resource permissions are</h3>
+    <ul>
+        <li *ngFor="let item of resourcePermissions">{{item.txt}}: {{item.values}}</li>
+    </ul>
 </div>
 
