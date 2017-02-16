@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+    noAuth: false,
+    production: true,
+    behindApache: true
 };

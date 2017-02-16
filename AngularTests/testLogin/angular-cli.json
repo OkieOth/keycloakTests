@@ -24,7 +24,9 @@
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
+        "prod": "environments/environment.prod.ts",
+        "no_auth": "environments/environment.no_auth.ts",
+        "behind_apache": "environments/environment.behind_apache.ts"
       }
     }
   ],

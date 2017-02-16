@@ -1,0 +1,7 @@
+{
+  "realm": "angular-test",
+  "auth-server-url": "/auth",
+  "ssl-required": "none",
+  "resource": "eins",
+  "public-client": true
+}

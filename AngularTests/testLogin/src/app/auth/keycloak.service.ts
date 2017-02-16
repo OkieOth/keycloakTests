@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {CanActivate, Router} from "@angular/router";
+import { environment } from '../../environments/environment';
 
 declare let Keycloak: any;
 
@@ -14,7 +15,7 @@ export class KeycloakService implements CanActivate {
     static auth: any = {};
 
     static init(): Promise<any> {
-        let keycloakAuth: any = new Keycloak('keycloak.json');
+        let keycloakAuth: any = environment.behindApache ? new Keycloak('keycloak_behindApache.json') : new Keycloak('keycloak.json');
         KeycloakService.auth.loggedIn = false;
 
         return new Promise((resolve, reject) => {
