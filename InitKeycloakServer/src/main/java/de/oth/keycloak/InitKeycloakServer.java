@@ -94,6 +94,7 @@ public class InitKeycloakServer {
                 cRes = KeycloakAccess.addClientToRealm(rRes, name, app.getRedirectUrls(), app.getAppRoles());
                 KeycloakAccess.addMissedRedirectUrls(rRes, cRes, app.getRedirectUrls());
                 KeycloakAccess.addMissedClientRoles(rRes, cRes, app.getAppRoles());
+                KeycloakAccess.addMissedWebOrigins(rRes,cRes,app.getWebOrigins());
             }
         }
     }

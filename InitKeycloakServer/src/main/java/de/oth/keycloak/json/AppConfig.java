@@ -15,6 +15,7 @@ public class AppConfig {
     private String name;
     private List<String> redirectUrls;
     private List<String> appRoles;
+    private List<String> webOrigins;
 
     public String getName() {
         return name;
@@ -38,5 +39,9 @@ public class AppConfig {
 
     public void setAppRoles(List<String> appRoles) {
         this.appRoles = appRoles;
-    }  
+    }
+
+    public List<String> getWebOrigins() { return webOrigins; }
+
+    public void setWebOrigins(List<String> webOrigins) { this.webOrigins = webOrigins; }
 }

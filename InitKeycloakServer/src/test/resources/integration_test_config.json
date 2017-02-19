@@ -8,6 +8,8 @@
                     "/demo1/*"],
                 "appRoles": [ "view","edit","admin" ]
                 },
+               "webOrigins": [
+                "*"],
                 {
                 "name": "demo2",
                 "redirectUrls": [

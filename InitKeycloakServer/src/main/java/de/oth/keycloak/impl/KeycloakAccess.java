@@ -326,6 +326,24 @@ public class KeycloakAccess {
         }
     }
 
+    public static void addMissedWebOrigins(RealmResource rRes, ClientResource clientResource, List<String> neededWebOrigins) {
+        if (neededWebOrigins!=null && (!neededWebOrigins.isEmpty())) {
+            ClientRepresentation cRep = clientResource.toRepresentation();
+            List<String> webOrigins = cRep.getWebOrigins();
+            boolean webOriginsChanged = false;
+            for (String s: neededWebOrigins) {
+                if (!webOrigins.contains(s)) {
+                    webOrigins.add(s);
+                    webOriginsChanged = true;
+                }
+            }
+            if (webOriginsChanged) {
+                cRep.setWebOrigins(webOrigins);
+                rRes.clients().get(cRep.getId()).update(cRep);
+            }
+        }
+    }
+
     public static void addMissedClientRoles(RealmResource rRes, ClientResource clientResource, List<String> clientRoles) {
         if (clientRoles != null && (!clientRoles.isEmpty())) {
             ClientRepresentation cRep = clientResource.toRepresentation();
