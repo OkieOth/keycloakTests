@@ -1,0 +1,57 @@
+@startuml
+title \ndocker-compose container\nstructure - development\n
+
+!define clAuth #DodgerBlue
+!define clEins #Orange
+!define clZwei #68B500
+!define clBlack #999999
+
+
+node keycloak [
+jboss/keycloak-postgres:2.4.0.Final
+--
+angularauthtest_keycloak_1
+]
+
+note top of keycloak: sso server
+
+node db [
+postgres:alpine
+--
+angularauthtest_db_1
+]
+
+node tomcat [
+okieoth/d_tomcat8_keycloak:0.1
+--
+
+angularauthtest_tomcat_1
+]
+
+note top of tomcat: sso server
+
+frame ng_serve [
+    ng serve --port 8003
+]
+
+note top of ng_serve: angular devserver
+
+folder webapps as "./tomcat/webapps"
+folder db_dir as "./db"
+folder angular_dir as "../../testLogin"
+
+artifact auth as "/auth"
+artifact eins as "/eins"
+artifact zwei as "/"
+
+auth -[clAuth]-> keycloak: :8001
+eins -[clEins]-> tomcat: :8002
+zwei -[clZwei]-> ng_serve: :8003
+
+keycloak -[clBlack]-> db: :5432
+
+tomcat -[clBlack]down-> webapps
+db -[clBlack]down-> db_dir
+ng_serve -[clZwei]down-> angular_dir
+
+@enduml
