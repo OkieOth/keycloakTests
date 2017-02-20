@@ -1,7 +1,7 @@
 {
-  "realm": "tomcat-test",
+  "realm": "angular-test",
   "auth-server-url": "/auth",
   "ssl-required": "none",
-  "resource": "eins",
+  "resource": "zwei",
   "public-client": true
 }
