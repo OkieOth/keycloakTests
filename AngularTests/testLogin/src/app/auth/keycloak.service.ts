@@ -15,24 +15,26 @@ export class KeycloakService implements CanActivate {
     static auth: any = {};
 
     static init(): Promise<any> {
-        let keycloakAuth: any = environment.behindApache ? new Keycloak('keycloak_behindApache.json') : new Keycloak('keycloak.json');
-        KeycloakService.auth.loggedIn = false;
+        if (!KeycloakService.auth.loggedIn) {
+            let keycloakAuth: any = environment.behindApache ? new Keycloak('keycloak_behindApache.json') : new Keycloak('keycloak.json');
+            KeycloakService.auth.loggedIn = false;
 
-        return new Promise((resolve, reject) => {
-            console.log("KeycloakService.init: ...");
-            keycloakAuth.init({onLoad: 'login-required'})
-                .success(() => {
-                    console.log("KeycloakService.init: login success");
-                    KeycloakService.auth.loggedIn = true;
-                    KeycloakService.auth.authz = keycloakAuth;
+            return new Promise((resolve, reject) => {
+                console.log("KeycloakService.init: ...");
+                keycloakAuth.init({onLoad: 'login-required'})
+                    .success(() => {
+                        console.log("KeycloakService.init: login success");
+                        KeycloakService.auth.loggedIn = true;
+                        KeycloakService.auth.authz = keycloakAuth;
 //            KeycloakService.auth.logoutUrl = keycloakAuth.authServerUrl + "/realms/demo/protocol/openid-connect/logout?redirect_uri=/angular2-product/index.html";
-                    resolve();
-                })
-                .error(() => {
-                    console.log("KeycloakService.init: login error");
-                    reject();
-                });
-        });
+                        resolve();
+                    })
+                    .error(() => {
+                        console.log("KeycloakService.init: login error");
+                        reject();
+                    });
+            });
+        }
     }
 
     /*

@@ -60,10 +60,10 @@ export class MainViewComponent implements OnInit,OnDestroy {
     get realmPermissions(): IRealmPermissions[] {
         let ret: IRealmPermissions[] = [];
         if (this.keycloakService.isAppGranted("app-eins")) {
-            ret.push({link:'http://192.168.113:8000/eins/',txt:'Eins'});
+            ret.push({link:'http://localhost:8000/eins/',txt:'Eins'});
         }
         if (this.keycloakService.isAppGranted("app-zwei")) {
-            ret.push({link:'http://192.168.113:8000/zwei/', txt: 'Zwei'});
+            ret.push({link:'http://localhost:8000/zwei/', txt: 'Zwei'});
         }
         return ret;
     }
