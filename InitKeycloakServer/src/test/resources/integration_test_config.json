@@ -6,10 +6,10 @@
                 "name": "demo1",
                 "redirectUrls": [
                     "/demo1/*"],
+                "webOrigins": [
+                  "*"],
                 "appRoles": [ "view","edit","admin" ]
                 },
-               "webOrigins": [
-                "*"],
                 {
                 "name": "demo2",
                 "redirectUrls": [

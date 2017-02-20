@@ -91,7 +91,7 @@ sourceSets {
 }
 
 task integrationTest(type: Test) {
-    def composeName='initkeycloakserverintegrationtests'
+    def composeName='testinitkeycloak'
     def composeFile="${project.rootDir}/docker-compose/testInitKeycloak/docker-compose.yml"
     def keycloakContName="${composeName}_keycloak_1"
     doFirst {
