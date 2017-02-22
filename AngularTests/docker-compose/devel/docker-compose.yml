@@ -1,0 +1,43 @@
+version: '2'
+services:
+    tomcat:        
+        image: "okieoth/d_tomcat8_keycloak:0.1"
+        container_name: angularauthtest_tomcat_devel
+        ports:
+            - "8002:8080"
+        volumes:
+            - "./tomcat/webapps:/opt/tomcat/webapps"
+        networks:
+            - angular-devel-test
+    keycloak:
+        image: "jboss/keycloak-postgres:2.4.0.Final"
+        container_name: angularauthtest_keycloak_devel
+        depends_on:
+            - db
+        ports:
+            - "8001:8080"
+        links:
+            - db:postgres
+        environment:
+              - POSTGRES_USER=homer
+              - POSTGRES_PASSWORD=bartSucks4
+              - POSTGRES_PORT_5432_TCP_ADDR=postgres
+              - POSTGRES_PORT_5432_TCP_PORT=5432
+        networks:
+            - angular-devel-test
+    db:
+        environment:
+              - POSTGRES_USER=homer
+              - POSTGRES_PASSWORD=bartSucks4
+              - POSTGRES_DB=keycloak
+        image: "postgres:alpine"
+        container_name: angularauthtest_db_devel
+        expose:
+            - "5432"
+        volumes:
+            - "./db/pg_data:/var/lib/postgresql/data"
+        networks:
+            - angular-devel-test
+networks:
+    angular-devel-test:
+

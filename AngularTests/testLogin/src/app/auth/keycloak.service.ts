@@ -21,12 +21,13 @@ export class KeycloakService implements CanActivate {
 
             return new Promise((resolve, reject) => {
                 console.log("KeycloakService.init: ...");
-                keycloakAuth.init({onLoad: 'login-required'})
+//                keycloakAuth.init({onLoad: 'check-sso', checkLoginIframe: true, checkLoginIframeInterval:5, flow:'hybrid' } )
+                keycloakAuth.init({onLoad: 'login-required', flow: 'standard', checkLoginIframeInterval:5})
                     .success(() => {
                         console.log("KeycloakService.init: login success");
                         KeycloakService.auth.loggedIn = true;
                         KeycloakService.auth.authz = keycloakAuth;
-//            KeycloakService.auth.logoutUrl = keycloakAuth.authServerUrl + "/realms/demo/protocol/openid-connect/logout?redirect_uri=/angular2-product/index.html";
+//                        KeycloakService.auth.logoutUrl = keycloakAuth.authServerUrl + "/realms/angular-test/protocol/openid-connect/logout?redirect_uri=/zwei/logout";
                         resolve();
                     })
                     .error(() => {
@@ -64,7 +65,8 @@ export class KeycloakService implements CanActivate {
     }
 
     getUser(): string {
-        return KeycloakService.auth.authz.tokenParsed.name;
+//        return KeycloakService.auth.authz.tokenParsed.name;
+        return KeycloakService.auth.authz.debug;
     }
 
     getRealm(): string {

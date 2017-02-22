@@ -1,6 +1,6 @@
 {
   "realm": "angular-test",
-  "auth-server-url": "http://localhost:8001/auth",
+  "auth-server-url": "http://192.168.0.113:8080/auth",
   "ssl-required": "none",
   "resource": "zwei",
   "public-client": true

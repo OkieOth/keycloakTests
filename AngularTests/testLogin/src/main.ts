@@ -1,8 +1,8 @@
+import {KeycloakService} from "./app/auth/keycloak.service";
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';
-import {KeycloakService} from "./app/auth/keycloak.service";
 import {bootstrapWithoutAuth, bootstrapWithKeycloak} from "./app/dynamic.bootstrap";
 
 if (environment.production) {

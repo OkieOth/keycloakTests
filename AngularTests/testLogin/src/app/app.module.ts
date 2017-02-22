@@ -1,3 +1,4 @@
+import { KeycloakService } from "./auth/keycloak.service";
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
@@ -7,7 +8,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { MainViewComponent } from './main-view/main-view.component';
 import {PanelModule} from 'primeng/primeng';
-import {KeycloakService} from "./auth/keycloak.service";
 
 const preAuthRoutes: Routes = [
     { path: '',

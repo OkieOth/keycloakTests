@@ -20,6 +20,7 @@ interface IResourcePermissions {
 })
 export class MainViewComponent implements OnInit,OnDestroy {
     private timer;
+    debug:string;
     ticks:number = 0;
     private subscription:Subscription;
 
@@ -31,6 +32,7 @@ export class MainViewComponent implements OnInit,OnDestroy {
         this.subscription = this.timer.subscribe((t) => {
             console.log('tick: '+t);
             this.ticks = t;
+            this.debug = t+" - " + this.keycloakService.getUser();
             this.keycloakService.refresh();
         });
     }
@@ -60,10 +62,10 @@ export class MainViewComponent implements OnInit,OnDestroy {
     get realmPermissions(): IRealmPermissions[] {
         let ret: IRealmPermissions[] = [];
         if (this.keycloakService.isAppGranted("app-eins")) {
-            ret.push({link:'http://localhost:8000/eins/',txt:'Eins'});
+            ret.push({link:'http://localhost:8002/eins/',txt:'Eins'});
         }
         if (this.keycloakService.isAppGranted("app-zwei")) {
-            ret.push({link:'http://localhost:8000/zwei/', txt: 'Zwei'});
+            ret.push({link:'http://localhost:8003/', txt: 'Zwei'});
         }
         return ret;
     }

@@ -843,7 +843,10 @@
                 }
 
                 if (event.data != "unchanged") {
+                    kc.debug=">>"+event.data+"<<";
+                    /*
                     kc.clearToken();
+                    */
                 }
 
                 for (var i = loginIframe.callbackList.length - 1; i >= 0; --i) {
@@ -857,6 +860,7 @@
                 }
             };
 
+            // sorgt für race-conditions? - eiko
             window.addEventListener('message', messageCallback, false);
 
             var check = function() {
