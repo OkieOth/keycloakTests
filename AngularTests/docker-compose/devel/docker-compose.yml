@@ -1,8 +1,8 @@
 version: '2'
 services:
     tomcat:        
-        image: "okieoth/d_tomcat8_keycloak:0.1"
-        container_name: angularauthtest_tomcat_devel
+        image: "okieoth/d_tomcat8_keycloak:0.2"
+        container_name: angularauthtest_tomcat_devel_0.2
         ports:
             - "8002:8080"
         volumes:
@@ -10,8 +10,8 @@ services:
         networks:
             - angular-devel-test
     keycloak:
-        image: "jboss/keycloak-postgres:2.4.0.Final"
-        container_name: angularauthtest_keycloak_devel
+        image: "jboss/keycloak-postgres:2.5.1.Final"
+        container_name: angularauthtest_keycloak_devel_0.2
         depends_on:
             - db
         ports:
@@ -31,7 +31,7 @@ services:
               - POSTGRES_PASSWORD=bartSucks4
               - POSTGRES_DB=keycloak
         image: "postgres:alpine"
-        container_name: angularauthtest_db_devel
+        container_name: angularauthtest_db_devel_0.2
         expose:
             - "5432"
         volumes:

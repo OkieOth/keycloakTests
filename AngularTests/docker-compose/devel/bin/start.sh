@@ -15,8 +15,8 @@ if ! [ -d $scriptPos/../httpd/sites-conf ]; then mkdir -p $scriptPos/../httpd/si
 if ! [ -d $scriptPos/../tomcat/webapps ]; then mkdir -p $scriptPos/../tomcat/webapps; fi
 if ! [ -d $scriptPos/../db/pg_data ]; then mkdir -p $scriptPos/../db/pg_data; fi
 
-tomcatContName=angularauthtest_tomcat_devel
-keycloakContName=angularauthtest_keycloak_devel
+tomcatContName=angularauthtest_tomcat_devel_0.2
+keycloakContName=angularauthtest_keycloak_devel_0.2
 
 docker ps -f name="$tomcatContName" | grep "$tomcatContName" > /dev/null && echo -en "\033[1;31m  container seems to be up: $tomcatContName\033[0m\n" && exit 1
 
