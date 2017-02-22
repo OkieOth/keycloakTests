@@ -8,6 +8,8 @@ TomcatAuthTests - tests the servlets in a Apache Tomcat v8 against a Keycloak SS
 The subprojects contain the sources to setup environment with Apache httpd, Keycloak, Jetty and Postgres.
 The systems are setup with docker compose and as a alternative with Vagrant.
 
+All stuff with keycloak v2.5.1.Final
+
 Requirements
 ------------
 There are two ways to play with it:

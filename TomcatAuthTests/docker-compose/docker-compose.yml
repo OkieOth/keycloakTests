@@ -2,6 +2,7 @@ version: '2'
 services:
     httpd:
         image: "okieoth/d_apache2.4:0.2"
+        container_name: tomcatauthtest_apache_0.2
         volumes:
             - "./httpd/conf:/opt/extra-conf-enabled"
             - "./httpd/sites-conf:/opt/extra-sites-enabled"
@@ -17,7 +18,8 @@ services:
         networks:
             - tomcat-test
     tomcat:
-        image: "okieoth/d_tomcat8_keycloak:0.1"
+        image: "okieoth/d_tomcat8_keycloak:0.2"
+        container_name: tomcatauthtest_tomcat_0.2
         expose:
             - "8080"
         volumes:
@@ -27,7 +29,8 @@ services:
         links:
             - keycloak:auth
     keycloak:
-        image: "jboss/keycloak-postgres:2.4.0.Final"
+        image: "jboss/keycloak-postgres:2.5.1.Final"
+        container_name: tomcatauthtest_keycloak_0.2
         depends_on:
             - db
         expose:
@@ -47,6 +50,7 @@ services:
               - POSTGRES_PASSWORD=bartSucks4
               - POSTGRES_DB=keycloak
         image: "postgres:alpine"
+        container_name: tomcatauthtest_db_0.2
         expose:
             - "5432"
         volumes:

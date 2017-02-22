@@ -4,9 +4,8 @@
 
 scriptPos=${0%/*}
 
-projectName=angularauthtest
 composeFile="$scriptPos/../docker-compose.yml"
 
-docker-compose -p "$projectName" -f "$composeFile" down
+docker-compose -f "$composeFile" down
 
 

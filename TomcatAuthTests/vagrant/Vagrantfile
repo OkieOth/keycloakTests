@@ -27,14 +27,14 @@ SCRIPT
 $startKeycloakEnv = <<KEYCLOAKENV
     if ! [ -d /opt/keycloak_test/keycloakTests ]; then
         # check for existing old containers ...
-        docker rm -f tomcatauthtest_httpd_1
-        docker rm -f tomcatauthtest_tomcat_1
-        docker rm -f tomcatauthtest_keycloak_1
-        docker rm -f tomcatauthtest_db_1
+        docker rm -f tomcatauthtest_apache_0.2 
+        docker rm -f tomcatauthtest_tomcat_0.2
+        docker rm -f tomcatauthtest_keycloak_0.2
+        docker rm -f tomcatauthtest_db_0.2
 
         cd /opt/keycloak_test
-        curl -s https://codeload.github.com/OkieOth/keycloakTests/zip/master -o keycloakTests.zip 
-        unzip keycloakTests.zip && rm -f keycloakTests.zip && mv keycloakTests-master keycloakTests
+        curl -s https://codeload.github.com/OkieOth/keycloakTests/zip/keycloak_2_5 -o keycloakTests.zip
+        unzip keycloakTests.zip && rm -f keycloakTests.zip && mv keycloakTests-keycloak_2_5 keycloakTests
         # modify the apache httpd port in docker-compose file
         pushd /opt/keycloak_test/keycloakTests/TomcatAuthTests/docker-compose > /dev/null
             mv docker-compose.yml docker-compose.yml.orig

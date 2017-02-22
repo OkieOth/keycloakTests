@@ -6,7 +6,6 @@ scriptPos=${0%/*}
 
 absPathToBase=$(pushd $scriptPos/.. > /dev/null; pwd ; popd > /dev/null)
 
-projectName=jettyauthtest
 composeFile="$scriptPos/../docker-compose.yml"
 
 keycloakAdmin=batman
@@ -16,7 +15,8 @@ if ! [ -d $scriptPos/../httpd/sites-conf ]; then mkdir -p $scriptPos/../httpd/si
 if ! [ -d $scriptPos/../jetty/webapps ]; then mkdir -p $scriptPos/../jetty/webapps; fi
 if ! [ -d $scriptPos/../db/pg_data ]; then mkdir -p $scriptPos/../db/pg_data; fi
 
-httpdContName=${projectName}_httpd_1
+httpdContName=jettyauthtest_apache_0.2
+keycloakContName=jettyauthtest_keycloak_0.2
 
 docker ps -f name="$httpdContName" | grep "$httpdContName" > /dev/null && echo -en "\033[1;31m  container seems to be up: $httpdContName\033[0m\n" && exit 1
 
@@ -41,19 +41,19 @@ fi
 
 
 if docker ps -a -f name="$httpdContName" | grep "$httpdContName" > /dev/null; then
-    docker-compose -p "$projectName" -f "$composeFile" start
+    docker-compose -f "$composeFile" start
 else
     if ! [ -d "$scriptPos/../db/pg_data" ]; then
         mkdir "$scriptPos/../db/pg_data"
     fi
 
-    docker-compose -p "$projectName" -f "$composeFile" up -d
-    if ! docker exec ${projectName}_keycloak_1 keycloak/bin/add-user-keycloak.sh --user "$keycloakAdmin" --password "$keycloakAdminPwd"; then
+    docker-compose -f "$composeFile" up -d
+    if ! docker exec $keycloakContName keycloak/bin/add-user-keycloak.sh --user "$keycloakAdmin" --password "$keycloakAdminPwd"; then
         echo -en "\033[1;31m  error while init keycloak user \033[0m\n"
         exit 1
     else
-        docker stop ${projectName}_keycloak_1
-        docker start ${projectName}_keycloak_1
+        docker stop $keycloakContName
+        docker start $keycloakContName
 
         # init of the keycloak test database ...
         tmpDir="$scriptPos/../tmp"
@@ -71,7 +71,7 @@ else
         # keycloak: wait for start finished ...
         finished=0
         while [ $finished -eq 0 ]; do
-            if docker logs ${projectName}_keycloak_1 | grep 'Admin console listening on http'; then
+            if docker logs $keycloakContName | grep 'Admin console listening on http'; then
                 finished=1
             else
                 echo "wait for finished keycload ..."
