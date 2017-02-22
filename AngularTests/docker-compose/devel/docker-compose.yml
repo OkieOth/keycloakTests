@@ -1,12 +1,44 @@
 version: '2'
 services:
+    httpd:
+        image: "okieoth/d_apache2.4:0.2"
+        container_name: angularauthtest_apache_0.2
+        volumes:
+            - "./httpd/conf:/opt/extra-conf-enabled"
+            - "./httpd/sites-conf:/opt/extra-sites-enabled"
+            - "./httpd/data:/opt/extra-data"
+        links:
+            - tomcat:tomcat
+            - keycloak:keycloak
+            - angular:angular
+        depends_on:
+            - keycloak
+            - tomcat
+            - angular
+        ports:
+                - "8000:80"
+        networks:
+            - angular-devel-test
     tomcat:        
         image: "okieoth/d_tomcat8_keycloak:0.2"
         container_name: angularauthtest_tomcat_devel_0.2
-        ports:
-            - "8002:8080"
+        expose:
+            - "8080"
         volumes:
             - "./tomcat/webapps:/opt/tomcat/webapps"
+        networks:
+            - angular-devel-test
+    angular:
+        image: okieoth/d_angular:0.1
+        container_name: angularauthtest_angular_devel_0.2
+        expose:
+            - "8000"
+        volumes:
+            - "../../testLogin:/opt/myproject"
+        environment:
+            - ENVIRONMENT=behind_apache
+            - BASE_HREF=./
+            - PORT=8000
         networks:
             - angular-devel-test
     keycloak:
@@ -14,8 +46,8 @@ services:
         container_name: angularauthtest_keycloak_devel_0.2
         depends_on:
             - db
-        ports:
-            - "8001:8080"
+        expose:
+            - "8080"
         links:
             - db:postgres
         environment:

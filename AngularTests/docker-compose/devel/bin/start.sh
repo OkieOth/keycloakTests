@@ -70,7 +70,7 @@ else
                 sleep 1
             fi
         done
-        "$initKeycloakDir/InitKeycloakServer.sh" -i "$absPathToBase/conf/init_keycloak.json" -k "http://localhost:8001/auth" -u $keycloakAdmin -p $keycloakAdminPwd
+        "$initKeycloakDir/InitKeycloakServer.sh" -i "$absPathToBase/conf/init_keycloak.json" -k "http://localhost:8000/auth" -u $keycloakAdmin -p $keycloakAdminPwd
     fi
 fi
 
