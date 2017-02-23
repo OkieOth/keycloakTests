@@ -839,6 +839,7 @@
 
                 if (event.data != "unchanged") {
                     console.log("clear token");
+                    // changed by okieoth
 //                    kc.clearToken();
                 }
 

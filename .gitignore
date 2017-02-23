@@ -4,6 +4,7 @@
 *.swp
 *.log
 *.war
+*.class
 build/
 pg_data/
 tmp/

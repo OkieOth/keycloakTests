@@ -1,13 +1,11 @@
 package de.oth.keycloak;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -30,7 +28,9 @@ public class SimpleServlet extends HttpServlet {
         RefreshableKeycloakSecurityContext keycloakSecurityContext = (RefreshableKeycloakSecurityContext) request.getAttribute(KeycloakSecurityContext.class.getName());
 
         Properties configFile = new Properties();
-        InputStream in = new FileInputStream("WEB-INF/config.properties");
+
+        ServletContext context = getServletContext();
+        InputStream in = context.getResourceAsStream("WEB-INF/config.properties");
         configFile.load(in);
         String angularServer = configFile.getProperty("angularServer");
 

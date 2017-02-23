@@ -2,6 +2,7 @@ import {Component, OnInit, Output, OnDestroy} from '@angular/core';
 import {KeycloakService} from "../auth/keycloak.service";
 import {Router} from "@angular/router";
 import {Observable, Subscription} from "rxjs";
+import {environment} from "../../environments/environment";
 
 interface IRealmPermissions {
     link:string;
@@ -62,10 +63,12 @@ export class MainViewComponent implements OnInit,OnDestroy {
     get realmPermissions(): IRealmPermissions[] {
         let ret: IRealmPermissions[] = [];
         if (this.keycloakService.isAppGranted("app-eins")) {
-            ret.push({link:'http://localhost:8002/eins/',txt:'Eins'});
+            let linkStr = environment.behindApache ? '/eins/' : 'http://localhost:8002/eins/';
+            ret.push({link:linkStr,txt:'Eins'});
         }
         if (this.keycloakService.isAppGranted("app-zwei")) {
-            ret.push({link:'http://localhost:8003/', txt: 'Zwei'});
+            let linkStr = environment.behindApache ? '/zwei/' : 'http://localhost:8003/zwei/';
+            ret.push({link:linkStr, txt: 'Zwei'});
         }
         return ret;
     }
