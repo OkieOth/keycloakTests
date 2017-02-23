@@ -6,6 +6,11 @@ scriptPos=${0%/*}
 
 absPathToBase=$(pushd $scriptPos/.. > /dev/null; pwd ; popd > /dev/null)
 
+if [ -z $MY_LOCAL_IP ]; then
+    echo "MY_LOCAL_IP is not defined. It's needed for apache proxy to angula devserver"
+    exit 1
+fi
+
 composeFile="$scriptPos/../docker-compose.yml"
 
 keycloakAdmin=batman

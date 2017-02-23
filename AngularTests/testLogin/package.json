@@ -4,6 +4,7 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
+    "devserver": "node_modules/.bin/ng serve --environment=behind_apache --deploy-url=/zwei --base-href=./ --host=0.0.0.0 --port=8003",
     "ng": "ng",
     "start": "ng serve",
     "test": "ng test",

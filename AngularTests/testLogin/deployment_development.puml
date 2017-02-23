@@ -6,11 +6,17 @@ title \ndocker-compose container\nstructure - development\n
 !define clZwei #68B500
 !define clBlack #999999
 
+node apache [
+okieoth/d_apache2.4:0.2
+--
+angularauthtest_apache_0.2
+]
+
 
 node keycloak [
 jboss/keycloak-postgres:2.4.0.Final
 --
-angularauthtest_keycloak_1
+angularauthtest_keycloak_0.2
 ]
 
 note top of keycloak: sso server
@@ -18,23 +24,24 @@ note top of keycloak: sso server
 node db [
 postgres:alpine
 --
-angularauthtest_db_1
+angularauthtest_db_0.2
 ]
 
 node tomcat [
 okieoth/d_tomcat8_keycloak:0.1
 --
-
-angularauthtest_tomcat_1
+angularauthtest_tomcat_0.2
 ]
 
 note top of tomcat: sso server
 
 frame ng_serve [
-    ng serve --port 8003
+    ng serve
 ]
 
-note top of ng_serve: angular devserver
+note top of ng_serve
+ local angular devserver
+end note
 
 folder webapps as "./tomcat/webapps"
 folder db_dir as "./db"
@@ -42,11 +49,14 @@ folder angular_dir as "../../testLogin"
 
 artifact auth as "/auth"
 artifact eins as "/eins"
-artifact zwei as "/"
+artifact zwei as "/zwei"
 
-auth -[clAuth]-> keycloak: :8001
-eins -[clEins]-> tomcat: :8002
-zwei -[clZwei]-> ng_serve: :8003
+auth -[clAuth]-> apache: :8000
+apache -[clAuth]-> keycloak: :8001
+eins -[clEins]-> apache: :8000
+apache -[clEins]-> tomcat: :8002
+zwei -[clZwei]-> apache: :8000
+apache -[clZwei]-> ng_serve: :8003
 
 keycloak -[clBlack]-> db: :5432
 
