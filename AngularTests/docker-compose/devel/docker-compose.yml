@@ -1,21 +1,40 @@
 version: '2'
 services:
-    tomcat:        
-        image: "okieoth/d_tomcat8_keycloak:0.1"
-        container_name: angularauthtest_tomcat_devel
+    httpd:
+        image: "okieoth/d_apache2.4:0.2"
+        container_name: angularauthtest_apache_0.2
+        volumes:
+            - "./httpd/conf:/opt/extra-conf-enabled"
+            - "./httpd/sites-conf:/opt/extra-sites-enabled"
+            - "./httpd/data:/opt/extra-data"
+        links:
+            - tomcat:tomcat
+            - keycloak:keycloak
+        depends_on:
+            - keycloak
+            - tomcat
+        extra_hosts:
+            - "local.angular:${MY_LOCAL_IP}"
         ports:
-            - "8002:8080"
+                - "8000:80"
+        networks:
+            - angular-devel-test
+    tomcat:        
+        image: "okieoth/d_tomcat8_keycloak:0.2"
+        container_name: angularauthtest_tomcat_devel_0.2
+        expose:
+            - "8080"
         volumes:
             - "./tomcat/webapps:/opt/tomcat/webapps"
         networks:
             - angular-devel-test
     keycloak:
-        image: "jboss/keycloak-postgres:2.4.0.Final"
-        container_name: angularauthtest_keycloak_devel
+        image: "jboss/keycloak-postgres:2.5.1.Final"
+        container_name: angularauthtest_keycloak_devel_0.2
         depends_on:
             - db
-        ports:
-            - "8001:8080"
+        expose:
+            - "8080"
         links:
             - db:postgres
         environment:
@@ -31,7 +50,7 @@ services:
               - POSTGRES_PASSWORD=bartSucks4
               - POSTGRES_DB=keycloak
         image: "postgres:alpine"
-        container_name: angularauthtest_db_devel
+        container_name: angularauthtest_db_devel_0.2
         expose:
             - "5432"
         volumes:

@@ -1,7 +1,7 @@
 {
   "realm" : "angular-test",
   "resource" : "eins",
-  "auth-server-url" : "http://localhost:8001/auth",
+  "auth-server-url" : "/auth",
   "ssl-required" : "none",
   "use-resource-role-mappings" : false,
   "credentials" : {

@@ -1,1 +1,1 @@
-Version des Javascript-Adapters: keycloak-js-adapter-dist-2.4.0.Final
+Version des Javascript-Adapters: keycloak-js-adapter-dist-2.5.1.Final
