@@ -1,0 +1,3 @@
+Start Vagrant VM every time with ...
+
+export MY_LOCAL_ID=YOUR_LOCAL_IP_ADDRESS; vagrant up

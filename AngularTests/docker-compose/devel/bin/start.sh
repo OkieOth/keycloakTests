@@ -6,6 +6,11 @@ scriptPos=${0%/*}
 
 absPathToBase=$(pushd $scriptPos/.. > /dev/null; pwd ; popd > /dev/null)
 
+if [ -z $MY_LOCAL_IP ]; then
+    echo "MY_LOCAL_IP is not defined. It's needed for apache proxy to angula devserver"
+    exit 1
+fi
+
 composeFile="$scriptPos/../docker-compose.yml"
 
 keycloakAdmin=batman
@@ -70,7 +75,7 @@ else
                 sleep 1
             fi
         done
-        "$initKeycloakDir/InitKeycloakServer.sh" -i "$absPathToBase/conf/init_keycloak.json" -k "http://localhost:8001/auth" -u $keycloakAdmin -p $keycloakAdminPwd
+        "$initKeycloakDir/InitKeycloakServer.sh" -i "$absPathToBase/conf/init_keycloak.json" -k "http://localhost:8000/auth" -u $keycloakAdmin -p $keycloakAdminPwd
     fi
 fi
 

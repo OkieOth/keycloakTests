@@ -839,10 +839,7 @@
 
                 if (event.data != "unchanged") {
                     console.log("clear token");
-                    // okieoth: loop problem if other messages are thrown?
-                    if (event.data.type != 'webpackOk') {
-                        kc.clearToken();
-                    }
+//                    kc.clearToken();
                 }
 
                 var callbacks = loginIframe.callbackList.splice(0, loginIframe.callbackList.length);
