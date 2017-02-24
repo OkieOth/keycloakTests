@@ -1,0 +1,282 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: grant helper
+  description: this is my very first swagger example
+host: test.host
+schemes:
+  - http
+basePath: /grant-helper
+produces:
+  - application/json
+paths:
+  /info:
+    post:
+      summary: provide information about the interface and the app
+      operationId: getInfo
+      responses:
+        200:
+          description: info data
+          schema:
+            $ref: '#/definitions/InfoData'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /role-list:
+    post:
+      summary: get all available grants from an app
+      operationId: getRoleList
+      parameters:
+        - name: filter
+          in: body
+          required: false
+          type: object
+          schema:
+             $ref: '#/definitions/FilterDef'
+        - name: sort
+          in: body
+          required: false
+          type: object
+          schema:
+             $ref: '#/definitions/SortDef'
+      responses:
+        200:
+          description: return available roles
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RoleShortDef'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /role:
+    post:
+      summary: provide all available data for a specific role
+      operationId: getRole
+      parameters:
+        - name: id
+          in: query
+          required: true
+          type: number
+          format: int64
+      responses:
+        200:
+          description: return data of a role
+          schema:
+            $ref: '#/definitions/RoleDef'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /role-add:
+    post:
+      summary: add a new role
+      operationId: addRole
+      parameters:
+        - name: role
+          in: body
+          required: true
+          type: object
+          schema:
+            $ref: '#/definitions/RoleDef'
+      responses:
+        200:
+          description: successfully added
+          schema:
+            $ref: '#/definitions/SuccessData'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /role-edit:
+    post:
+      summary: edit an existing role
+      operationId: editRole
+      parameters:
+        - name: role
+          in: body
+          required: true
+          type: object
+          schema:
+            $ref: '#/definitions/RoleDef'
+      responses:
+        200:
+          description: successfully updated
+          schema:
+            $ref: '#/definitions/SuccessData'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /role-del:
+    post:
+      summary: delete an existing role
+      operationId: delRole
+      parameters:
+        - name: id
+          in: query
+          required: true
+          type: number
+          format: int64
+      responses:
+        200:
+          description: successfully deleted
+          schema:
+            $ref: '#/definitions/SuccessData'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /grant-list:
+    post:
+      summary: provide a list with all available grants of a specific application
+      operationId: getGrantList
+      parameters:
+        - name: filter
+          in: body
+          required: false
+          type: object
+          schema:
+             $ref: '#/definitions/FilterDef'
+        - name: sort
+          in: body
+          required: false
+          type: object
+          schema:
+             $ref: '#/definitions/SortDef'
+      responses:
+        200:
+          description: return available grants
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GrantDef'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  SuccessData:
+    type: object
+    properties:
+      objId:
+        type: integer
+        format: int64
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int64
+      msg:
+        type: string
+  InfoData:
+    type: object
+    properties:
+      version:
+        type: integer
+        format: int32
+      subversion:
+        type: integer
+        format: int32
+      fixedRoles:
+        type: boolean
+        description: true if all roles are app predefined
+      date:
+        type: string
+        format: 'date-time'
+  RoleDef:
+    type: object
+    properties:
+      role_id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      active:
+        type: boolean
+      destr:
+        type: string
+      grants:
+        type: array
+        items:
+          $ref: '#/definitions/GrantedDef'
+  RoleShortDef:
+    type: object
+    properties:
+      role_id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      active:
+        type: boolean
+      destr:
+        type: string
+  GrantDef:
+    type: object
+    description: a generic grant object, all grants should be described with trees of this object
+    properties:
+      grant_id:
+        type: integer
+        format: int64
+      caption:
+        type: string
+      descr:
+        type: string
+      active:
+        type: boolean
+      visible:
+        type: boolean
+      addable:
+        type: boolean
+      editable:
+        type: boolean
+      deletable:
+        type: boolean
+      childs:
+        type: array
+        items:
+          $ref: '#/definitions/GrantDef'
+  GrantedDef:
+    type: object
+    description: contains the needed information about a given grant
+    properties:
+      grant_id:
+        type: integer
+        format: int64
+      visible:
+        type: boolean
+      add:
+        type: boolean
+      edit:
+        type: boolean
+      del:
+        type: boolean
+  FilterDef:
+    type: array
+    items:
+      $ref: '#/definitions/FilterElemDef'
+  FilterElemDef:
+    type: object
+    properties:
+      id:
+        type: string
+      value:
+        type: string
+      op:
+        type: string
+  SortDef:
+    type: array
+    items:
+      $ref: '#/definitions/SortElemDef'
+  SortElemDef:
+    type: object
+    properties:
+      id:
+        type: string
+      asc:
+        type: boolean
