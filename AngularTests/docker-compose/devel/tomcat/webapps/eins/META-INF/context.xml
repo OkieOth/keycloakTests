@@ -1,3 +1,0 @@
-<Context path="/eins">
-    <Valve className="org.keycloak.adapters.tomcat.KeycloakAuthenticatorValve"/>
-</Context>
