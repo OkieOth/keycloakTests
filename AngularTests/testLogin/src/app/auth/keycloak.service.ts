@@ -21,7 +21,6 @@ export class KeycloakService implements CanActivate {
 
             return new Promise((resolve, reject) => {
                 console.log("KeycloakService.init: ...");
-//                keycloakAuth.init({onLoad: 'check-sso', checkLoginIframe: true, checkLoginIframeInterval:5, flow:'hybrid' } )
                 keycloakAuth.init({onLoad: 'login-required', flow: 'standard', checkLoginIframeInterval:5})
                     .success(() => {
                         console.log("KeycloakService.init: login success");

@@ -839,7 +839,8 @@
 
                 if (event.data != "unchanged") {
                     console.log("clear token");
-//                    kc.clearToken();
+                    // changed by okieoth
+                    kc.clearToken();
                 }
 
                 var callbacks = loginIframe.callbackList.splice(0, loginIframe.callbackList.length);
